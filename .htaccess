@@ -1,7 +1,5 @@
-# TManager root routing/hardening for subfolder installs (e.g. /tmanager)
+# TManager root routing/hardening for subfolder installs
 Options -Indexes
-ServerSignature Off
-DirectoryIndex public/index.php index.php
 
 <IfModule mod_rewrite.c>
 RewriteEngine On
@@ -10,14 +8,17 @@ RewriteBase /tmanager/
 # Block direct access to sensitive folders
 RewriteRule ^(app|config|database|storage|cron)(/|$) - [F,L,NC]
 
-# Allow direct installer access
+# Allow installer
 RewriteRule ^installer\.php$ - [L]
 
-# If request already targets /public, stop here
+# Pass through existing files/directories
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Already in public folder
 RewriteRule ^public/ - [L]
 
-# Send all non-file/non-dir requests to /public
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+# Send app routes to /public
 RewriteRule ^(.*)$ public/$1 [L,QSA]
 </IfModule>

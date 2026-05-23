@@ -69,6 +69,7 @@ sqlite3 database/database.sqlite ".backup 'database/backup-$(date +%F).sqlite'"
 ```
 
 ## Segurança
+- Compatível com Apache 2.2 e 2.4 nos ficheiros `.htaccess` (usa `Require all denied` com fallback para `Deny from all`).
 - Password hash (`password_hash`/`password_verify`)
 - PDO prepared statements
 - CSRF token
