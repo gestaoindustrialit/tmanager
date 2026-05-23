@@ -1,0 +1,22 @@
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Bloqueio direto de pastas sensíveis
+RewriteRule ^(app|config|database|storage|cron)(/|$) - [F,L,NC]
+
+# Permitir installer direto
+RewriteRule ^installer\.php$ - [L]
+
+# Se ficheiro ou pasta existir, não reescrever
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Se já está em /public, não mexer
+RewriteRule ^public/ - [L]
+
+# Tudo o resto vai para /public
+RewriteRule ^(.*)$ public/$1 [L,QSA]
+</IfModule>
