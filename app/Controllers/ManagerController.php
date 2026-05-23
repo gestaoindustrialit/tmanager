@@ -66,4 +66,40 @@ class ManagerController extends Controller {
         }
         redirect(app_url('/manager/company?tab=fornecedores'));
     }
+
+    public function importClients(){
+        $this->requireAuth();
+        if (empty($_FILES['import_file']['tmp_name'])) redirect(app_url('/manager/company?tab=clientes'));
+
+        $db = Database::getInstance();
+        $file = fopen($_FILES['import_file']['tmp_name'], 'r');
+        if (!$file) redirect(app_url('/manager/company?tab=clientes'));
+
+        fgetcsv($file, 0, ',');
+        $stmt = $db->prepare("INSERT INTO clients (name,nif,address,email,phone,website,contact_name,contact_email,status,notes) VALUES (?,?,?,?,?,?,?,?,?,?)");
+        while (($row = fgetcsv($file, 0, ',')) !== false) {
+            if (count($row) < 10 || trim($row[0]) === '') continue;
+            $stmt->execute(array_map('trim', array_slice($row, 0, 10)));
+        }
+        fclose($file);
+        redirect(app_url('/manager/company?tab=clientes'));
+    }
+
+    public function importSuppliers(){
+        $this->requireAuth();
+        if (empty($_FILES['import_file']['tmp_name'])) redirect(app_url('/manager/company?tab=fornecedores'));
+
+        $db = Database::getInstance();
+        $file = fopen($_FILES['import_file']['tmp_name'], 'r');
+        if (!$file) redirect(app_url('/manager/company?tab=fornecedores'));
+
+        fgetcsv($file, 0, ',');
+        $stmt = $db->prepare("INSERT INTO suppliers (name,nif,address,contact,email,phone,category,status,notes) VALUES (?,?,?,?,?,?,?,?,?)");
+        while (($row = fgetcsv($file, 0, ',')) !== false) {
+            if (count($row) < 9 || trim($row[0]) === '') continue;
+            $stmt->execute(array_map('trim', array_slice($row, 0, 9)));
+        }
+        fclose($file);
+        redirect(app_url('/manager/company?tab=fornecedores'));
+    }
 }

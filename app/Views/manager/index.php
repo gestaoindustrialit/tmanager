@@ -49,6 +49,16 @@ $activeTab = $activeTab ?? 'empresa';
     <?php endif; ?>
 
     <?php if($activeTab === 'clientes'): ?>
+      <div class="manager-form mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+          <h6 class="mb-0">Importar clientes por CSV</h6>
+          <a class="btn btn-sm btn-outline-primary" href="<?= e(asset_url('templates/template_clientes.csv')) ?>" download>Download template clientes</a>
+        </div>
+        <form method="post" action="<?= e(app_url('/manager/clients/import')) ?>" enctype="multipart/form-data" class="row g-3">
+          <div class="col-md-9"><input class="form-control" type="file" name="import_file" accept=".csv" required></div>
+          <div class="col-md-3"><button class="btn btn-primary w-100">Importar clientes</button></div>
+        </form>
+      </div>
       <form method="post" action="<?= e(app_url('/manager/clients/save')) ?>" class="row g-3 manager-form mb-4">
         <div class="col-md-4"><label class="form-label">Nome</label><input name="name" class="form-control" required></div>
         <div class="col-md-2"><label class="form-label">NIF</label><input name="nif" class="form-control"></div>
@@ -71,6 +81,16 @@ $activeTab = $activeTab ?? 'empresa';
     <?php endif; ?>
 
     <?php if($activeTab === 'fornecedores'): ?>
+      <div class="manager-form mb-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+          <h6 class="mb-0">Importar fornecedores por CSV</h6>
+          <a class="btn btn-sm btn-outline-primary" href="<?= e(asset_url('templates/template_fornecedores.csv')) ?>" download>Download template fornecedores</a>
+        </div>
+        <form method="post" action="<?= e(app_url('/manager/suppliers/import')) ?>" enctype="multipart/form-data" class="row g-3">
+          <div class="col-md-9"><input class="form-control" type="file" name="import_file" accept=".csv" required></div>
+          <div class="col-md-3"><button class="btn btn-primary w-100">Importar fornecedores</button></div>
+        </form>
+      </div>
       <form method="post" action="<?= e(app_url('/manager/suppliers/save')) ?>" class="row g-3 manager-form mb-4">
         <div class="col-md-4"><label class="form-label">Nome</label><input name="name" class="form-control" required></div>
         <div class="col-md-2"><label class="form-label">NIF</label><input name="nif" class="form-control"></div>

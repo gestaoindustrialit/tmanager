@@ -8,6 +8,8 @@ $router->get('/manager/company',[ManagerController::class,'index']);
 $router->post('/manager/company/save',[ManagerController::class,'saveCompany']);
 $router->post('/manager/clients/save',[ManagerController::class,'saveClient']);
 $router->post('/manager/suppliers/save',[ManagerController::class,'saveSupplier']);
+$router->post('/manager/clients/import',[ManagerController::class,'importClients']);
+$router->post('/manager/suppliers/import',[ManagerController::class,'importSuppliers']);
 $router->get('/hr/employees',[HrController::class,'index']);
 $router->get('/spec-books',[SpecBookController::class,'index']);
 $router->get('/orders',[OrdersController::class,'index']);
