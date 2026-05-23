@@ -2,7 +2,7 @@
 class ManagerController extends Controller {
     private function requireAuth(): void {
         if (!Auth::check()) {
-            redirect('/login');
+            redirect(app_url('/login'));
         }
     }
 
@@ -26,16 +26,7 @@ class ManagerController extends Controller {
         $this->requireAuth();
         $db = Database::getInstance();
         $id = (int)($_POST['id'] ?? 0);
-        $params = [
-            trim($_POST['name'] ?? ''),
-            trim($_POST['nif'] ?? ''),
-            trim($_POST['address'] ?? ''),
-            trim($_POST['email'] ?? ''),
-            trim($_POST['phone'] ?? ''),
-            trim($_POST['site'] ?? ''),
-            trim($_POST['primary_color'] ?? ''),
-            (float)($_POST['labor_rate'] ?? 0),
-        ];
+        $params = [trim($_POST['name'] ?? ''), trim($_POST['nif'] ?? ''), trim($_POST['address'] ?? ''), trim($_POST['email'] ?? ''), trim($_POST['phone'] ?? ''), trim($_POST['site'] ?? ''), trim($_POST['primary_color'] ?? ''), (float)($_POST['labor_rate'] ?? 0)];
 
         if ($id > 0) {
             $params[] = $id;
@@ -43,18 +34,14 @@ class ManagerController extends Controller {
         } else {
             $db->prepare("INSERT INTO company (name,nif,address,email,phone,site,primary_color,labor_rate) VALUES (?,?,?,?,?,?,?,?)")->execute($params);
         }
-        redirect('/manager/company?tab=empresa');
+        redirect(app_url('/manager/company?tab=empresa'));
     }
 
     public function saveClient(){
         $this->requireAuth();
         $db = Database::getInstance();
         $id = (int)($_POST['id'] ?? 0);
-        $params = [
-            trim($_POST['name'] ?? ''), trim($_POST['nif'] ?? ''), trim($_POST['address'] ?? ''), trim($_POST['email'] ?? ''),
-            trim($_POST['phone'] ?? ''), trim($_POST['website'] ?? ''), trim($_POST['contact_name'] ?? ''), trim($_POST['contact_email'] ?? ''),
-            trim($_POST['status'] ?? 'Ativo'), trim($_POST['notes'] ?? ''),
-        ];
+        $params = [trim($_POST['name'] ?? ''), trim($_POST['nif'] ?? ''), trim($_POST['address'] ?? ''), trim($_POST['email'] ?? ''), trim($_POST['phone'] ?? ''), trim($_POST['website'] ?? ''), trim($_POST['contact_name'] ?? ''), trim($_POST['contact_email'] ?? ''), trim($_POST['status'] ?? 'Ativo'), trim($_POST['notes'] ?? '')];
 
         if ($id > 0) {
             $params[] = $id;
@@ -62,17 +49,14 @@ class ManagerController extends Controller {
         } else {
             $db->prepare("INSERT INTO clients (name,nif,address,email,phone,website,contact_name,contact_email,status,notes) VALUES (?,?,?,?,?,?,?,?,?,?)")->execute($params);
         }
-        redirect('/manager/company?tab=clientes');
+        redirect(app_url('/manager/company?tab=clientes'));
     }
 
     public function saveSupplier(){
         $this->requireAuth();
         $db = Database::getInstance();
         $id = (int)($_POST['id'] ?? 0);
-        $params = [
-            trim($_POST['name'] ?? ''), trim($_POST['nif'] ?? ''), trim($_POST['address'] ?? ''), trim($_POST['contact'] ?? ''),
-            trim($_POST['email'] ?? ''), trim($_POST['phone'] ?? ''), trim($_POST['category'] ?? ''), trim($_POST['status'] ?? 'Ativo'), trim($_POST['notes'] ?? ''),
-        ];
+        $params = [trim($_POST['name'] ?? ''), trim($_POST['nif'] ?? ''), trim($_POST['address'] ?? ''), trim($_POST['contact'] ?? ''), trim($_POST['email'] ?? ''), trim($_POST['phone'] ?? ''), trim($_POST['category'] ?? ''), trim($_POST['status'] ?? 'Ativo'), trim($_POST['notes'] ?? '')];
 
         if ($id > 0) {
             $params[] = $id;
@@ -80,6 +64,6 @@ class ManagerController extends Controller {
         } else {
             $db->prepare("INSERT INTO suppliers (name,nif,address,contact,email,phone,category,status,notes) VALUES (?,?,?,?,?,?,?,?,?)")->execute($params);
         }
-        redirect('/manager/company?tab=fornecedores');
+        redirect(app_url('/manager/company?tab=fornecedores'));
     }
 }
