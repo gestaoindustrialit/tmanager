@@ -83,3 +83,10 @@ sqlite3 database/database.sqlite ".backup 'database/backup-$(date +%F).sqlite'"
 - Fase 2: Shopfloor, Produção, KPIs.
 - Fase 3: WMS, Planner, Calendar, Auditorias, Tasks.
 - Fase 4: PDFs avançados, alertas avançados, integrações OAuth.
+
+## Diagnóstico rápido de erro 500
+1. Teste `https://SEU_DOMINIO/tmanager/public/health.php` (deve mostrar `OK-TMANAGER`).
+2. Se funcionar, teste `https://SEU_DOMINIO/tmanager/login`.
+3. Se login falhar, verificar no alojamento: `error_log` do Apache/PHP e extensão `pdo_sqlite`.
+4. Este projeto usa `.htaccess` mínimo para máxima compatibilidade em cPanel.
+
