@@ -27,6 +27,13 @@ Aplicação web MVC em PHP 7.3+ (sem frameworks), SQLite, Bootstrap 5, Chart.js 
 2. O instalador valida requisitos, cria diretórios, executa migrations/seed e gera hash da password admin.
 3. No final, aceder a `/login` com `admin@tmanager.local` / `admin123`.
 
+
+## Deploy em subpasta (ex: `ricardo-pereira.com/tmanager`)
+- O `.htaccess` raiz já vem preparado com `RewriteBase /tmanager/`.
+- Se instalar noutra pasta, ajuste esta linha para o caminho correto (ex: `/erp/`, `/intranet/`).
+- Garanta que `AllowOverride All` está ativo no Apache para a pasta do projeto.
+- Se receber erro 403, confirme permissões (pastas 755, ficheiros 644) e que `mod_rewrite` está ativo.
+
 ## Login inicial
 - Email: `admin@tmanager.local`
 - Password: `admin123`
