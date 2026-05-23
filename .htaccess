@@ -1,0 +1,23 @@
+# TManager root hardening
+Options -Indexes
+ServerSignature Off
+
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Bloquear acesso direto a diretórios sensíveis
+RewriteRule ^app/ - [F,L]
+RewriteRule ^config/ - [F,L]
+RewriteRule ^database/ - [F,L]
+RewriteRule ^storage/ - [F,L]
+RewriteRule ^cron/ - [F,L]
+
+# Permitir installer apenas quando chamado diretamente
+RewriteRule ^installer\.php$ - [L]
+
+# Encaminhar tudo para /public quando não existir ficheiro/diretório real
+RewriteCond %{REQUEST_URI} !^/public/
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
