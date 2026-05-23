@@ -11,6 +11,7 @@ RewriteRule ^installer\.php$ - [L]
 RewriteRule ^$ public/ [L]
 
 # Route all requests to public front controller unless file/dir exists
+RewriteCond %{REQUEST_URI} !^/tmanager/public/
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^(.*)$ public/$1 [L,QSA]
