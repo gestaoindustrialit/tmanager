@@ -1,0 +1,14 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Install in subfolder /tmanager
+RewriteBase /tmanager/
+
+# Keep direct access to installer
+RewriteRule ^installer\.php$ - [L]
+
+# Route all requests to public front controller unless file/dir exists
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/$1 [L,QSA]
+</IfModule>
