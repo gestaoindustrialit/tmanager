@@ -7,6 +7,9 @@ RewriteBase /tmanager/
 # Keep direct access to installer
 RewriteRule ^installer\.php$ - [L]
 
+# Always route the subfolder root to public/ to avoid 403 directory listing
+RewriteRule ^$ public/ [L]
+
 # Route all requests to public front controller unless file/dir exists
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
