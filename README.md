@@ -8,6 +8,8 @@ Aplicação web MVC em PHP 7.3+ (sem frameworks), SQLite, Bootstrap 5, Chart.js 
 - Apache com `mod_rewrite`
 
 ## Instalação
+> **Importante:** em instalações em subpasta (ex: `/tmanager`), ajuste `base_path` em `config/config.php`.
+
 1. Colocar o projeto no servidor (ex: `/var/www/tmanager`).
 2. Apontar VirtualHost para `/public`.
 3. Criar base de dados:
