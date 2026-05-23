@@ -12,6 +12,11 @@ $dbFile = $baseDir . '/database/database.sqlite';
 $migrationFile = $baseDir . '/database/migrations.sql';
 $seedFile = $baseDir . '/database/seed.sql';
 $configFile = $baseDir . '/config/config.php';
+$scriptName = str_replace('\\', '/', $_SERVER['SCRIPT_NAME'] ?? '/installer.php');
+$installBasePath = rtrim(str_replace('/installer.php', '', $scriptName), '/');
+if ($installBasePath === '/') {
+    $installBasePath = '';
+}
 
 function out($message, $type = 'info') {
     $colors = [
@@ -96,6 +101,17 @@ try {
     $st->execute([':password' => $hash, ':email' => 'admin@tmanager.local']);
     out('Password do admin inicializada com hash seguro.', 'ok');
 
+    if (file_exists($configFile) && is_readable($configFile) && is_writable($configFile)) {
+        $configContent = file_get_contents($configFile);
+        $targetBasePath = $installBasePath === '' ? '' : $installBasePath;
+        $replacement = "'base_path' => '" . str_replace("'", "\\'", $targetBasePath) . "'";
+        $updated = preg_replace("/'base_path'\\s*=>\\s*'[^']*'/", $replacement, $configContent, 1);
+        if (is_string($updated)) {
+            file_put_contents($configFile, $updated);
+            out('base_path atualizado para: ' . ($targetBasePath === '' ? '/' : $targetBasePath), 'ok');
+        }
+    }
+
     $stmt = $pdo->query("SELECT logo_path FROM company LIMIT 1");
     $company = $stmt->fetch(PDO::FETCH_ASSOC);
     if ($company && empty($company['logo_path'])) {
@@ -105,7 +121,8 @@ try {
 
     out('Instalação concluída com sucesso.', 'ok');
     echo "<p style='font-family:Arial,sans-serif'>Login: <strong>admin@tmanager.local</strong> / <strong>admin123</strong></p>";
-    echo "<p style='font-family:Arial,sans-serif'><a href='/login'>Ir para Login</a></p>";
+    $loginUrl = ($installBasePath === '' ? '' : $installBasePath) . '/login';
+    echo "<p style='font-family:Arial,sans-serif'><a href='" . htmlspecialchars($loginUrl, ENT_QUOTES, 'UTF-8') . "'>Ir para Login</a></p>";
 
 } catch (Exception $e) {
     out('Erro durante instalação: ' . $e->getMessage(), 'err');
